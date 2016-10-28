@@ -12,3 +12,11 @@ class CreateUserForm(forms.Form):
         max_length=100,
         widget=forms.PasswordInput
     )
+
+class LoginForm(forms.Form):
+    email_address = forms.EmailField(label='Email Address', max_length=50)
+    password = forms.CharField(
+        label='Password',
+        max_length=100,
+        widget=forms.PasswordInput
+    )

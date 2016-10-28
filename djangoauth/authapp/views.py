@@ -1,7 +1,8 @@
 from django.shortcuts import render
-from forms import CreateUserForm
+from forms import CreateUserForm, LoginForm
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
 
 def create_user_view(request):
     if request.method == 'GET':
@@ -45,7 +46,35 @@ def create_user_view(request):
 
 
 def login_view(request):
-    pass
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+
+        if form.is_valid():
+            # authenticate
+            email = form.cleaned_data['email_address']
+            password = form.cleaned_data['password']
+
+            user = authenticate(
+                username=email,
+                password=password
+            )
+
+            if user is not None:
+                # authenticated
+                return JsonResponse({
+                    'data': 0
+                })
+            else:
+                # not authenticated
+                return JsonResponse({
+                    'data': 1
+                })
+
+    else:
+        form = LoginForm()
+        return render(request, 'login.html', {
+            'form': form
+        })
 
 def home_view(request):
     pass
