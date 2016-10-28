@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
-from postgres import POSTGRES_USERNAME, POSTGRES_PASSWORD, POSTGRES_DB_NAME
+# from postgres import POSTGRES_USERNAME, POSTGRES_PASSWORD, POSTGRES_DB_NAME
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -73,6 +73,10 @@ WSGI_APPLICATION = 'djangoauth.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
+
+POSTGRES_DB_NAME = os.environ.get('POSTGRES_DB_NAME', None)
+POSTGRES_USERNAME = os.environ.get('POSTGRES_USERNAME', None)
+POSTGRES_PASSWORD = os.environ.get('POSTGRES_PASSWORD', None)
 
 DATABASES = {
     'default': {
