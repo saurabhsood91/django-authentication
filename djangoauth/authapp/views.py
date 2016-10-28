@@ -2,7 +2,7 @@ from django.shortcuts import render
 from forms import CreateUserForm, LoginForm
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
 def create_user_view(request):
@@ -98,3 +98,11 @@ def home_view(request):
     return render(request, 'home.html', {
         'user': request.user
     })
+
+def logout_view(request):
+    user = request.user
+    if user and user.is_authenticated():
+        # log the user out
+        logout(request)
+    # redirect to login
+    return HttpResponseRedirect('/login')
