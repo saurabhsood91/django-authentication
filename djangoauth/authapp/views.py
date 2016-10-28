@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from forms import CreateUserForm, LoginForm
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 
 def create_user_view(request):
     if request.method == 'GET':
@@ -61,20 +62,39 @@ def login_view(request):
 
             if user is not None:
                 # authenticated
-                return JsonResponse({
-                    'data': 0
+                # log in the user
+                login(request, user)
+
+                next_url = request.POST.get('next', None)
+
+                if next_url:
+                    print 'Got Next parameter'
+                    return HttpResponseRedirect(next_url)
+
+                return render(request, 'home.html', {
+                    'user': user
                 })
             else:
                 # not authenticated
-                return JsonResponse({
-                    'data': 1
+                error = {
+                    'msg': 'Could not validate credentials'
+                }
+                return render(request, 'login.html', {
+                    'form': form,
+                    'error': error
                 })
 
     else:
+        user = request.user
+        if user and user.is_authenticated():
+            return HttpResponseRedirect('/home')
         form = LoginForm()
         return render(request, 'login.html', {
             'form': form
         })
 
+@login_required
 def home_view(request):
-    pass
+    return render(request, 'home.html', {
+        'user': request.user
+    })
