@@ -8,6 +8,7 @@
         <form action="" method="post">
             {% csrf_token %}
             {{ form.as_p }}
+            {{ error.msg }} <br />
             <input type="submit" value="Create User" />
             <input type="reset" value="Clear" />
         </form>
