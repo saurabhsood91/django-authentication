@@ -1,7 +1,7 @@
 from django import forms
 
 class CreateUserForm(forms.Form):
-    user_name = forms.EmailField(label='Email Address', max_length=50)
+    email_address = forms.EmailField(label='Email Address', max_length=50)
     password = forms.CharField(
         label='Password',
         max_length=100,
