@@ -27,12 +27,14 @@ def create_user_view(request):
                         password=password
                     )
                     new_user.save()
-                    return JsonResponse({
-                        'data': 1
-                    })
+                    return HttpResponseRedirect('/home')
                 else:
-                    return JsonResponse({
-                        'data': -1
+                    error = {
+                        'msg': 'Account already exists'
+                    }
+                    return render(request, 'create_user.html', {
+                        'form': form,
+                        'error': error
                     })
             else:
                 error = {
