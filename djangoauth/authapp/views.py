@@ -95,7 +95,7 @@ def login_view(request):
             'form': form
         })
 
-@login_required
+@login_required(login_url='/auth')
 def home_view(request):
     return render(request, 'home.html', {
         'user': request.user
@@ -107,4 +107,4 @@ def logout_view(request):
         # log the user out
         logout(request)
     # redirect to login
-    return HttpResponseRedirect('/login')
+    return HttpResponseRedirect('/auth')

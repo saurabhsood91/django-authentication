@@ -3,7 +3,7 @@ from views import home_view, login_view, create_user_view, logout_view
 
 urlpatterns = [
     url('^createuser/$', create_user_view),
-    url('^login/*', login_view),
+    url('^auth/*', login_view),
     url('^home/$', home_view),
     url('^logout/$', logout_view),
 ]
